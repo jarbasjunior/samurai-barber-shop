@@ -35,3 +35,7 @@ jobs:
           TZ: America/Sao_Paulo
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASS: ${{ secrets.POSTGRES_PASS }}
+          POSTGRES_NAME: ${{ secrets.POSTGRES_NAME }}
