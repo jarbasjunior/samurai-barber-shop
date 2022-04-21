@@ -5,7 +5,7 @@ on:
     inputs:
       specs:
         description: 'Run all or unique specs?'
-        default: 'cypress/integration/*'
+        default: cypress/integration/*
 
 jobs:
   chrome-ui-tests:
