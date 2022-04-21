@@ -1,0 +1,45 @@
+name: Electron UI Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      specs:
+        description: 'Run all or unique specs?'
+        default: cypress/integration/*
+
+jobs:
+  electron-ui-tests:
+     runs-on: ubuntu-latest
+     container: cypress/browsers:node14.17.6-chrome100-ff98
+     strategy:
+      fail-fast: false
+      matrix:
+        containers: [1]
+     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Ping Samurai Barber Shop API (Heroku)
+        uses: Leocardoso94/is-my-site-up@v1.2
+        with:
+          site: https://samuraibs-api-jarbas.herokuapp.com
+
+      - name: 'UI Tests - Electron'
+        uses: cypress-io/github-action@v2
+        with:
+          install-command: yarn install
+          wait-on: 'https://samuraibs-web-jarbas.herokuapp.com'
+          wait-on-timeout: 120
+          browser: electron
+          record: true
+          parallel: true
+          group: 'UI - Electron'
+          spec: ${{ github.event.inputs.specs }}
+        env:
+          TZ: America/Sao_Paulo
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASS: ${{ secrets.POSTGRES_PASS }}
+          POSTGRES_NAME: ${{ secrets.POSTGRES_NAME }}
